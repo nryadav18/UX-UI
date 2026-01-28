@@ -21,35 +21,37 @@ const OrderHistoryPage = () => {
         <div>
             <Navbar />
             <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-                <h1 className="text-3xl font-bold text-gray-900 mb-6">Your Orders</h1>
+                <h1 className="text-3xl font-bold text-white mb-8 pl-2 border-l-4 border-purple-500">Your Orders</h1>
                 {orders.length === 0 ? (
-                    <p>No orders found.</p>
+                    <div className="glass rounded-2xl p-10 text-center">
+                        <p className="text-gray-400 text-xl">No orders found.</p>
+                    </div>
                 ) : (
-                    <div className="space-y-4">
+                    <div className="space-y-6">
                         {orders.map((order) => (
-                            <div key={order.id} className="bg-white shadow overflow-hidden sm:rounded-lg p-6">
-                                <div className="flex justify-between items-center mb-4">
-                                    <h3 className="text-lg leading-6 font-medium text-gray-900">
-                                        Order #{order.id}
+                            <div key={order.id} className="glass rounded-2xl p-6 border border-white/5 hover:border-white/10 transition-colors">
+                                <div className="flex justify-between items-center mb-6">
+                                    <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                                        <span className="text-purple-400">#</span>
+                                        Order {order.id}
                                     </h3>
-                                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${order.status === 'DELIVERED' ? 'bg-green-100 text-green-800' :
-                                            order.status === 'SHIPPED' ? 'bg-blue-100 text-blue-800' :
-                                                'bg-yellow-100 text-yellow-800'
+                                    <span className={`px-3 py-1 text-xs font-bold rounded-full border ${order.status === 'DELIVERED' ? 'bg-green-500/10 text-green-400 border-green-500/20' :
+                                            order.status === 'SHIPPED' ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' :
+                                                'bg-yellow-500/10 text-yellow-400 border-yellow-500/20'
                                         }`}>
                                         {order.status}
                                     </span>
                                 </div>
-                                <div className="border-t border-gray-200 pt-4">
-                                    <dl className="divide-y divide-gray-200">
-                                        <div className="py-2 flex justify-between">
-                                            <dt className="text-sm font-medium text-gray-500">Date Placed</dt>
-                                            <dd className="text-sm text-gray-900">{new Date(order.created_at).toLocaleDateString()}</dd>
+                                <div className="border-t border-white/10 pt-4">
+                                    <dl className="divide-y divide-white/5">
+                                        <div className="py-3 flex justify-between items-center">
+                                            <dt className="text-sm font-medium text-gray-400">Date Placed</dt>
+                                            <dd className="text-sm text-white font-mono">{new Date(order.created_at).toLocaleDateString()}</dd>
                                         </div>
-                                        <div className="py-2 flex justify-between">
-                                            <dt className="text-sm font-medium text-gray-500">Total Amount</dt>
-                                            <dd className="text-sm text-gray-900 font-bold">${order.total_amount}</dd>
+                                        <div className="py-3 flex justify-between items-center">
+                                            <dt className="text-sm font-medium text-gray-400">Total Amount</dt>
+                                            <dd className="text-lg text-white font-bold bg-white/5 px-3 py-1 rounded-lg">${order.total_amount}</dd>
                                         </div>
-                                        {/* Ideally list items here too, but for summary it's okay */}
                                     </dl>
                                 </div>
                             </div>

@@ -13,9 +13,19 @@ const PrivateRoute = ({ children }) => {
 };
 
 function App() {
+  React.useEffect(() => {
+    const handleMouseMove = (e) => {
+      document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
+      document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
   return (
     <Router>
-      <div className="App min-h-screen bg-gray-100">
+      <div className="App min-h-screen text-white">
         <Routes>
           <Route path="/" element={<ProductListPage />} />
           <Route path="/login" element={<LoginPage />} />
