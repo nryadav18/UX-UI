@@ -21,3 +21,24 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 def get_password_hash(password: str) -> str:
     # bcrypt.hashpw returns bytes, we decode to str for database storage
     return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+
+def create_password_reset_token(email: str) -> str:
+    delta = timedelta(minutes=15) # 15 minutes expiry
+    now = datetime.utcnow()
+    expires = now + delta
+    exp = expires.timestamp()
+    encoded_jwt = jwt.encode(
+        {"exp": exp, "nbf": now, "sub": email, "type": "password_reset"}, 
+        settings.SECRET_KEY, 
+        algorithm=settings.ALGORITHM,
+    )
+    return encoded_jwt
+
+def verify_password_reset_token(token: str) -> Optional[str]:
+    try:
+        decoded_token = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+        if decoded_token["type"] != "password_reset":
+            return None
+        return decoded_token["sub"]
+    except jwt.JWTError:
+        return None
